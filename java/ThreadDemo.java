@@ -39,17 +39,58 @@ public class ThreadDemo {
         ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
         scheduledPool.schedule(() -> System.out.println("延迟1秒执行"), 1, TimeUnit.SECONDS);
         
-        // 4.4 自定义线程池
+        // 4.4 自定义线程池(带策略)
         ThreadPoolExecutor customPool = new ThreadPoolExecutor(
             2, // 核心线程数
             4, // 最大线程数
             60, // 空闲时间
             TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(10) // 任务队列
+            new ArrayBlockingQueue<>(2), // 小容量队列
+            new ThreadFactory() { // 自定义线程工厂
+                private int count = 0;
+                public Thread newThread(Runnable r) {
+                    return new Thread(r, "CustomThread-" + count++);
+                }
+            },
+            new RejectedExecutionHandler() { // 拒绝策略
+                public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                    System.out.println("任务被拒绝: " + r);
+                }
+            }
         );
-        customPool.execute(() -> System.out.println("自定义线程池任务"));
+        
+        // 监控线程池状态
+        ScheduledExecutorService monitor = Executors.newSingleThreadScheduledExecutor();
+        monitor.scheduleAtFixedRate(() -> {
+            System.out.println(
+                String.format("线程池状态: 活跃线程=%d, 核心线程=%d, 最大线程=%d, 队列大小=%d",
+                customPool.getActiveCount(),
+                customPool.getCorePoolSize(),
+                customPool.getMaximumPoolSize(),
+                customPool.getQueue().size())
+            );
+        }, 0, 1, TimeUnit.SECONDS);
+        
+        // 提交超过线程池处理能力的任务
+        for (int i = 0; i < 10; i++) {
+            final int taskId = i;
+            try {
+                customPool.execute(() -> {
+                    try {
+                        Thread.sleep(1000);
+                        System.out.println("执行任务: " + taskId + " 线程: " + Thread.currentThread().getName());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                System.out.println("提交任务异常: " + taskId);
+            }
+        }
         
         // 关闭线程池
+        Thread.sleep(5000);
+        monitor.shutdown();
         fixedPool.shutdown();
         cachedPool.shutdown();
         scheduledPool.shutdown();

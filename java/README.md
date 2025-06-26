@@ -1,52 +1,102 @@
-# Java基础语法演示
+# Java核心知识演示项目
 
-## 核心知识点
+## 包含的演示内容
 
-### 1. 数据类型
+### 1. 基础语法 (Main.java)
 
-- 基本类型：int, double, boolean, char等
-- 引用类型：String, 数组, 对象
-- 类型转换：自动转换和强制转换
+- 变量声明与初始化
+- 控制流语句
+- 方法定义与调用
 
-### 2. 控制语句
+运行命令:
+javac java/Main.java
+java -cp java Main
 
-- 条件语句：if-else, switch-case
-- 循环语句：for, while, do-while
-- 跳转语句：break, continue, return
+### 2. 集合框架 (CollectionsDemo.java)
 
-### 3. 面向对象基础
+- ArrayList/HashMap操作
+- Collections工具类
+- 集合遍历
 
-- 类与对象
-- 封装、继承、多态
-- 构造方法
-- this和super关键字
+运行命令:
+javac java/CollectionsDemo.java
+java -cp java CollectionsDemo
 
-### 4. 异常处理
+### 3. 类型转换 (TypeConversionDemo.java)
 
-- try-catch-finally
-- throws关键字
-- 自定义异常
+- 基本类型转换
+- 字符串与数值转换
+- 集合与数组转换
 
-### 5. 集合框架
+运行命令:
+javac java/TypeConversionDemo.java
+java -cp java TypeConversionDemo
 
-- List/Set/Map接口
-- ArrayList/HashSet/HashMap实现类
-- 泛型使用
+### 4. 类加载机制 (ClassLoaderDemo.java)
 
-## 项目演示内容
+- 类加载器层次
+- 动态类加载
+- 自定义类加载器
 
-```java
-// 基本变量
-int num = 10;
-String text = "Hello";
+运行命令:
+javac java/ClassLoaderDemo.java
+java -cp java ClassLoaderDemo
 
-// 条件语句
-if(num > 5) {
-    System.out.println("大于5");
-}
+### 5. 多线程 (ThreadDemo.java)
 
-// 方法定义
-public static int add(int a, int b) {
-    return a + b;
-}
+- 线程创建方式
+- 线程池配置
+- 线程同步
+
+运行命令:
+javac java/ThreadDemo.java
+java -cp java ThreadDemo
+
+### 6. 锁机制 (LockDemo.java)
+
+- synchronized
+- ReentrantLock
+- ReadWriteLock
+- StampedLock
+
+运行命令:
+javac java/LockDemo.java
+java -cp java LockDemo
+
+### 7. 线程池详解 (ThreadPoolDetailDemo.java)
+
+- 线程池参数配置
+- 拒绝策略
+- 状态监控
+
+运行命令:
+javac java/ThreadPoolDetailDemo.java
+java -cp java ThreadPoolDetailDemo
+
+## 项目结构
+
+java/
+├── Main.java
+├── CollectionsDemo.java
+├── TypeConversionDemo.java
+├── ClassLoaderDemo.java
+├── ThreadDemo.java
+├── LockDemo.java
+└── ThreadPoolDetailDemo.java
+
+
+## 快速运行所有演示
+
+```bash
+# 编译所有Java文件
+javac java/*.java
+
+# 运行指定演示
+java -cp java Main
+java -cp java CollectionsDemo
+java -cp java TypeConversionDemo
+java -cp java ClassLoaderDemo
+java -cp java ThreadDemo
+java -cp java LockDemo
+java -cp java ThreadPoolDetailDemo
 ```
